@@ -11,5 +11,5 @@
 
 ### How to run this project
 
-> Run "npm install"
-> Run "npm start" the Front End Project inside SmartCart.FED project folder
+Run "npm install"
+Run "npm start" the Front End Project inside SmartCart.FED project folder
