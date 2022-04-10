@@ -4,10 +4,10 @@
 
 > I have used TypeScript with React for this project
 
-> Other components used:
+#### Other components used:
 
->> Material UI for UI Styling
->> Styled Components for cretaing custom components
+##### Material UI for UI Styling
+##### Styled Components for cretaing custom components
 
 ### How to run this project
 
