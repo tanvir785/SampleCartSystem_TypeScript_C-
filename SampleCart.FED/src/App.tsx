@@ -10,13 +10,16 @@ import Cart from "./Cart/Cart";
 //styles
 import { Wrapper, StyledButton } from "./App.styles";
 import { ICartItemType } from "./Interfaces/ICommon";
+import { getTotalItems, handleAddToCart, handleRemoveFromCart } from "./Helper/CartHelper";
 
 const getProducts = async (): Promise<ICartItemType[]> => {
   return (await fetch("https://localhost:44327/Product/GetProducts")).json();
 };
 
 const App = () => {
+
   const [cartOpen, setCartOpen] = useState(false);
+  
   const [cartItems, setCartItems] = useState([] as ICartItemType[]);  
 
   const { data, isLoading, error } = useQuery<ICartItemType[]>(
@@ -24,36 +27,14 @@ const App = () => {
     getProducts
   );
 
-  const getTotalItems = (items: ICartItemType[]) => items.reduce((ack: number, item) => ack + item.quantity, 0);
+  const addToCart = (clickedItem: ICartItemType) => {
+    setCartItems(handleAddToCart(clickedItem, cartItems));
+  }
 
-  const handleAddToCart = (clickedItem: ICartItemType) => {
-    setCartItems(prev => {
-      //1. is item already added in the cart?
-      const isItemInCart = prev.find(item => item.productID === clickedItem.productID);
+  const removeFromCart = (productID: string) => {
+    setCartItems(handleRemoveFromCart(productID, cartItems));
+  }
 
-      if (isItemInCart) {
-        return prev.map(item => 
-          item.productID === clickedItem.productID ? { ...item, quantity: item.quantity + 1} : item
-        )
-      }
-      //First time item is added
-      return [ ...prev, {...clickedItem, quantity: 1}]
-    })
-  };
-
-  const handleRemoveFromCart = (productID: string) => {
-    setCartItems(prev => (
-      prev.reduce((ack, item) => {
-        if (item.productID === productID) {
-          if(item.quantity === 1) return ack;
-          return [...ack, {...item, quantity: item.quantity - 1}];
-        } else {
-          return [...ack, item];
-        }
-      }, [] as ICartItemType[])
-    ))
-  };
-  
   if (isLoading) return <LinearProgress />;
   if (error) return <div>Something went wrong ...</div>;
   return (
@@ -61,8 +42,8 @@ const App = () => {
       <Drawer anchor="right" open={cartOpen} onClose={() => setCartOpen(false)}>
         <Cart
           cartItems={cartItems}
-          addToCart={handleAddToCart}
-          removeFromCart={handleRemoveFromCart}
+          addToCart ={addToCart}
+          removeFromCart = {removeFromCart}
         />
       </Drawer>
       <StyledButton onClick={() => setCartOpen(true)}>
@@ -74,7 +55,7 @@ const App = () => {
         {data?.map((item: ICartItemType) => {
           return (
             <Grid item key={item.productID} xs={12} sm={4}>
-              <Item item={item} handleAddToCart={handleAddToCart} />
+              <Item item={item} items={cartItems} addToCart ={addToCart}/>
             </Grid>
           );
         })}

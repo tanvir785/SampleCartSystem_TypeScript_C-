@@ -13,7 +13,7 @@ import { ICartItemType, IOrderType } from "../Interfaces/ICommon";
 
 type Props = {
     cartItems: ICartItemType[];
-    addToCart: (clickedItem: ICartItemType) => void;
+    addToCart: (clickedItem: ICartItemType) => void;  
     removeFromCart: (productID: string) => void;
 }
 
@@ -52,8 +52,9 @@ const Cart: React.FC<Props> = ({ cartItems, addToCart, removeFromCart }) => {
                 <CartItem 
                     key={item.productID}
                     item={item}
-                    addToCart={addToCart}
-                    removeFromCart={removeFromCart}
+                    items = {cartItems}
+                    addToCart = {addToCart}
+                    removeFromCart = {removeFromCart}
                 />
             )}
             <h3>Shipping Cost: $ {orders.shippingCost}</h3>

@@ -9,17 +9,18 @@ import { Wrapper } from "./Item.styles";
 
 type Props = {
   item: ICartItemType;
-  handleAddToCart: (clickedItem: ICartItemType) => void;
+  items: ICartItemType[];  
+  addToCart: (clickedItem: ICartItemType) => void;
 };
 
-const Item: React.FC<Props> = ({ item, handleAddToCart }) => (
+const Item: React.FC<Props> = ({ item, items, addToCart}) => (
   <Wrapper>
     <div>
       <h3>{item.title}</h3>
       <p>{item.description}</p>
       <h3>$ {item.price}</h3>
     </div>
-    <Button onClick={() => handleAddToCart(item)}>Add to cart</Button>
+    <Button onClick={() => addToCart(item)}>Add to cart</Button>
   </Wrapper>
 );
 

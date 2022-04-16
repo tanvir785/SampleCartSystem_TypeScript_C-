@@ -1,6 +1,7 @@
 using FluentAssertions;
 using Moq;
 using SampleCart.Domain.Models;
+using SampleCart.Services.CustomException;
 using SampleCart.Services.Interface;
 using SampleCart.Services.Services;
 using System;
@@ -13,9 +14,12 @@ namespace SampleCart.Tests
     {
 
         private PlacedOrder _sourcePlacedOrder;
+        private IOrderService _orderService;
 
         public OrderServiceTests()
         {
+            _orderService = new OrderService();
+
             _sourcePlacedOrder = new PlacedOrder
             {
                 Items = new[]
@@ -34,8 +38,6 @@ namespace SampleCart.Tests
         [Fact]
         public async Task AndShippingCostIsHigherForTotalPriceMoreThanFifty()
         {
-            var _orderService = new OrderService();
-
             var shippingCost = await _orderService.GetShippingCost(_sourcePlacedOrder);
             shippingCost.Should().Be(20);
         }
@@ -49,6 +51,16 @@ namespace SampleCart.Tests
 
             var shippingCost = await _orderService.GetShippingCost(_sourcePlacedOrder);
             shippingCost.Should().Be(10);
+        }
+        [Fact]
+
+        public async Task NullItemsShouldThrowInvalidPlacedOrderException()
+        {
+            _sourcePlacedOrder.Items = null;
+
+            Func<Task> action = async () => { await _orderService.GetShippingCost(_sourcePlacedOrder); };
+
+            await action.Should().ThrowAsync<InvalidOrderException>();
         }
     }
 }

@@ -8,11 +8,12 @@ import { Wrapper } from "./CartItem.styles";
 
 type Props = {
   item: ICartItemType;
+  items: ICartItemType[];
   addToCart: (clickedItem: ICartItemType) => void;
   removeFromCart: (productID: string) => void;
 };
 
-const CartItem: React.FC<Props> = ({ item, addToCart, removeFromCart }) => (
+const CartItem: React.FC<Props> = ({ item, items, addToCart, removeFromCart }) => (
   <Wrapper>
     <div>
       <h3>{item.title}</h3>
