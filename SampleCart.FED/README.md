@@ -1,15 +1,19 @@
-#### Prequisites
-> Please ensure the SmartCart.API project is running for the APIs to return data
-### React/TypeScript Cart System
+# Prequisites
 
-> I have used TypeScript with React for this project
+Please ensure the **SmartCart.API** project is running for the APIs to return data
+## Front End Development
 
-#### Other components used:
+* React 
+* TypeScript
+* Material UI
+* Styled Components
 
-##### Material UI for UI Styling
-##### Styled Components for cretaing custom components
+## How to run this project
 
-### How to run this project
+```sh 
+Run "npm install" to install dependencies
+```
 
-Run "npm install"
-Run "npm start" the Front End Project inside SmartCart.FED project folder
+```sh 
+Run "npm start" to start the Front End Project inside SmartCart.FED project folder
+```
